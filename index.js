@@ -33,6 +33,14 @@ async function run() {
             const perfume = await perfumeCollection.findOne(query);
             res.send(perfume);
         });
+
+        //add an item to the database
+        app.post('/perfume', async (req, res) => {
+            const newPerfume = req.body;
+            const result = await perfumeCollection.insertOne(newPerfume);
+            res.send(result);
+        });
+
     } finally {
 
     }
