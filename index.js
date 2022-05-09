@@ -63,6 +63,16 @@ async function run() {
             const result = await perfumeCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
         });
+
+        //load data for a particular user
+        app.get('/userItems', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { email };
+            const cursor = perfumeCollection.find(query);
+            const items = await cursor.toArray();
+            res.send(items);
+        })
     } finally {
 
     }
