@@ -41,11 +41,26 @@ async function run() {
             res.send(result);
         });
 
-        //delete 
+        //delete an item
         app.delete('/perfume/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const result = await perfumeCollection.deleteOne(query);
+            res.send(result);
+        });
+
+        //update the quantity
+        app.put('/perfume/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedPerfume = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    quantity: updatedPerfume.quantity
+                }
+            };
+            const result = await perfumeCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
         });
     } finally {
